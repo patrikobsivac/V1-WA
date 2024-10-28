@@ -1,21 +1,32 @@
-const express = require('express');
+const express = require("express");
+const path = require('path');
+const app = express();
+const PORT = 3000;
 
-let app = express();
 
-app.get("/", (req, res, send) =>{
-    app.send("Hello world")
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-//console.log(app);
-//app.listen(4000, function(){
-//    console.log("slusam");
-//});
-
-const port = 3000;
-app.listen(port, (error) => {
-    if (error){
-        console.log("greska");
-    }else{
-        console.log("proba");
-        }
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'about.html'));
 });
+
+app.get('/users', (req, res) => {
+  const users = [
+    { id: 1, ime: 'Ivan', prezime: 'Ivić' },
+    { id: 2, ime: 'Ana', prezime: 'Anić' },
+    { id: 3, ime: 'Marko', prezime: 'Markić' }
+  ];
+  res.json(users);
+});
+
+
+app.listen(PORT, (error) => {
+    if (error) {
+    console.error(`Greška prilikom pokretanja poslužitelja: ${error.message}`);
+    } else {
+    console.log(`Server je pokrenut na http://localhost:${PORT}`);
+    }
+});
+
